@@ -11,6 +11,7 @@ import org.junit.Rule
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
+import org.springframework.boot.autoconfigure.r2dbc.R2dbcAutoConfiguration
 import org.springframework.boot.autoconfigure.security.oauth2.client.reactive.ReactiveOAuth2ClientAutoConfiguration
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.context.annotation.Import
@@ -22,7 +23,7 @@ import java.util.*
     classes = [CommonConfiguration::class, RepositoryConfiguration::class]
 )
 @EnableAutoConfiguration(
-    exclude = [ReactiveOAuth2ClientAutoConfiguration::class]
+    exclude = [R2dbcAutoConfiguration::class]
 )
 class PersonRepositoryTest : WithDatabaseContainer {
 

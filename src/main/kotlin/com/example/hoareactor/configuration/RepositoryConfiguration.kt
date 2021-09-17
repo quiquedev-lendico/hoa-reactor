@@ -9,21 +9,18 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import java.sql.DriverManager
+import javax.sql.DataSource
 
 @Configuration
 class RepositoryConfiguration {
 
     @Bean
-    fun dsl(
-        @Value("\${spring.datasource.username}")
-        dbUserName: String,
-        @Value("\${spring.datasource.password}")
-        dbPassword: String,
-        @Value("\${spring.datasource.url}")
-        jdbcUrl: String
-    ): DSLContext = DSL.using(
-        DriverManager.getConnection(jdbcUrl, dbUserName, dbPassword),
-        SQLDialect.MYSQL,
-        Settings().withRenderNameCase(LOWER)
-    )
+    fun dsl(dataSource: DataSource): DSLContext =
+        DSL.using(
+            dataSource,
+            SQLDialect.MYSQL,
+            Settings().withRenderNameCase(LOWER)
+        )
+
+
 }

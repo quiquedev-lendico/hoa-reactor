@@ -19,8 +19,8 @@ interface WithDatabaseContainer {
         @JvmStatic
         fun datasourceConfig(registry: DynamicPropertyRegistry) {
             registry.add("spring.datasource.url", dbContainer::getJdbcUrl)
-            registry.add("spring.datasource.password", dbContainer::getPassword)
-            registry.add("spring.datasource.username", dbContainer::getUsername)
+            registry.add("spring.datasource.hikari.password", dbContainer::getPassword)
+            registry.add("spring.datasource.hikari.username", dbContainer::getUsername)
             registry.add("spring.datasource.initialization-mode") { "always" }
         }
     }
