@@ -1,17 +1,37 @@
 package com.example.hoareactor.repository
 
+import arrow.core.Option
+import arrow.core.toOption
 import com.example.ReactorUtils.safeMono
+import com.example.hoareactor.repository.RepositoryErrors.DatabaseError
+import com.example.hoareactor.repository.tables.records.PersonRecord
+import com.example.hoareactor.repository.tables.references.PERSON
+import org.jooq.DSLContext
 import reactor.core.publisher.Mono
 import reactor.util.retry.Retry
 import java.time.Duration
-import kotlin.jvm.Throws
 
-class PersonRepository {
+class PersonRepository(
+    private val dslContext: DSLContext,
+) {
+
+    fun findById(id: String): Mono<Option<PersonRecord>> =
+        safeMono {
+            dslContext.selectFrom(PERSON)
+                .where(PERSON.ID.eq(id))
+                .fetchOne()
+                .toOption()
+        }.onErrorMap(::DatabaseError)
+
+    fun save(personRecord: PersonRecord): Mono<Unit> =
+        safeMono {
+            personRecord.store()
+            Unit
+        }.onErrorMap(::DatabaseError)
 
     fun save(person: Person): Mono<Unit> =
         Mono.fromCallable { println("saving $person into db") }
             .retryWhen(Retry.backoff(3, Duration.ofSeconds(2)))
-
 
     fun save2(person: Person): Mono<Unit> = safeMono {
         jooqCall()

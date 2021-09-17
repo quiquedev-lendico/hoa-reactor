@@ -1,1 +1,5 @@
-
+spring:
+  datasource:
+    username: root
+    url: jdbc:mysql://localhost:3307/person_test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+    password: local-password

@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: Hoa Nguyen
+      changes:
+        - createTable:
+            tableName: person
+            columns:
+              - column:
+                  name: id
+                  type: varchar(12)
+                  constraints:
+                    - primaryKey: true
+                    - nullable: false
+              - column:
+                  name: name
+                  type: varchar(100)
+                  constraints:
+                    - nullable: false
+              - column:
+                  name: age
+                  type: number(10,2)
+                  constraints:
+                    - nullable: false

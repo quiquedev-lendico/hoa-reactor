@@ -5,6 +5,7 @@ import com.example.hoareactor.client.NameClient
 import com.example.hoareactor.repository.PersonRepository
 import com.example.hoareactor.rest.PersonRestHandler
 import com.example.hoareactor.service.PersonService
+import org.jooq.DSLContext
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.reactive.function.client.WebClient
@@ -23,7 +24,9 @@ class CommonConfiguration {
     )
 
     @Bean
-    fun personRepository() = PersonRepository()
+    fun personRepository(dslContext: DSLContext) = PersonRepository(
+        dslContext = dslContext,
+    )
 
     @Bean
     fun personService(nameClient: NameClient, ageClient: AgeClient, personRepository: PersonRepository) = PersonService(
